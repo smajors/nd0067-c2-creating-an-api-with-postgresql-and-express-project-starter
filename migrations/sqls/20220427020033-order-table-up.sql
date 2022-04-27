@@ -6,4 +6,4 @@ CREATE TABLE order_item
     user_id INTEGER NOT NULL REFERENCES site_user (id), 
     quantity INTEGER NOT NULL, 
     active_flg BOOLEAN NOT NULL
-);SE
+);
