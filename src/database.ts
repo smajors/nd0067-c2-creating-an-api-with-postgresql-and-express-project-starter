@@ -32,4 +32,7 @@ if (ENV === 'dev') {
   throw new Error(`Invalid ENVIRONMENT specified. ENV=${ENV}`);
 }
 
+export const SALT = variables.BCRYPT_SALT;
+export const SALT_ROUNDS = variables.SALT_ROUNDS;
+
 export default client;
