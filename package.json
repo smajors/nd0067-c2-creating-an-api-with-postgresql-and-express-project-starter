@@ -8,7 +8,9 @@
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
     "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "lint": "eslint \"src/**/*.ts\"",
-    "test": "jasmine-ts",
+    "test-db-up": "db-migrate --env test up",
+    "test-db-down": "db-migrate --env test reset",
+    "test": "npm run tsc && npm run test-db-up && jasmine-ts && npm run test-db-down",
     "tsc": "tsc"
   },
   "author": "Udacity",
@@ -26,9 +28,11 @@
     "typescript": "^4.1.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.9",
     "@types/jasmine": "^3.6.3",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.23",
     "@types/pg": "^7.14.7",
     "@types/supertest": "^2.0.12",
@@ -41,7 +45,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.2.0",
     "jasmine": "^3.6.4",
-    "jasmine-spec-reporter": "^6.0.0",
+    "jasmine-spec-reporter": "^7.0.0",
     "jasmine-ts": "^0.3.0",
     "prettier": "^2.6.2",
     "supertest": "^6.2.2",
