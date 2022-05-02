@@ -15,6 +15,7 @@ const ENV = variables.ENV;
 // Get proper database based on environment.
 // Throw an error if the environment is not defined.
 if (ENV === 'dev') {
+  console.log('Using dev environment');
   client = new Pool({
     host: variables.POSTGRES_HOST,
     database: variables.POSTGRES_DB_DEV,
@@ -22,6 +23,7 @@ if (ENV === 'dev') {
     password: variables.POSTGRES_PASSWORD_DEV,
   });
 } else if (ENV == 'test') {
+  console.log('Using test environment');
   client = new Pool({
     host: variables.POSTGRES_HOST,
     database: variables.POSTGRES_DB_TEST,

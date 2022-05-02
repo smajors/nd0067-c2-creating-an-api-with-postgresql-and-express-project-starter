@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import userRoutes from './models/handlers/UserHandler'
+import userRoutes from './models/handlers/UserHandler';
 
 const app: express.Application = express();
 const address = '0.0.0.0:3000';
@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Define User Route
-app.use('/', userRoutes);
+userRoutes(app);
 
 app.use(bodyParser.json());
 
