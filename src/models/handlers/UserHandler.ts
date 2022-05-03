@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { User, UsersStore } from '../Users';
 import jwt, { Secret } from 'jsonwebtoken';
+import verifyAuthToken from '../../Util';
 
 const store = new UsersStore();
 
@@ -84,28 +85,6 @@ const authenticateUser = async (req: Request, res: Response) => {
     res.status(403);
     res.json(err);
   }
-};
-
-/**
- * Verify user provided authentication token
- * @param req HTTP Request
- * @param res HTTP Response
- * @returns JSON Payload with verified data, or a 401 error
- */
-const verifyAuthToken = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const authHeader = req.headers.authorization;
-    const token = authHeader?.split(' ')[1];
-    const tokenSecret = process.env.TOKEN_SECRET as unknown as Secret;
-    if (token && tokenSecret) {
-      const decoded = jwt.verify(token, tokenSecret);
-      // Add verified payload to the response
-      res.set('verifiedPayload', JSON.stringify(decoded));
-    }
-  } catch (err) {
-    return res.status(401).json(err);
-  }
-  next();
 };
 
 const userRoutes = (app: express.Application) => {
