@@ -3,28 +3,31 @@ import app from '../../src/server'
 import supertest from 'supertest';
 import jwt from 'jsonwebtoken';
 
-const store = new UsersStore();
+const userStore = new UsersStore();
 const request = supertest(app);
+const JWT_TOKEN_SECRET = process.env.TOKEN_SECRET as string;
+let authenticatedUser: string;
 
 // Do user model tests before attempting endpoint testing
 describe('User Model Tests', () => {
     it('Should have a User Authentication Method', () => {
-        expect (store.authenticate).toBeDefined();
+        expect (userStore.authenticate).toBeDefined();
     });
     it('Should have a Create User Method', () => {
-        expect(store.createUser).toBeDefined();
+        expect(userStore.createUser).toBeDefined();
     });
-    /*
-    it('Should have a Show All Users method', () => {
-        expect(store.showAllUsers).toBeDefined();
+    
+    it('Should have a Get All Users method', () => {
+        expect(userStore.getAllUsers).toBeDefined();
     });
-    */
+    it('Should have a get single user method', () => {
+        expect(userStore.getUser).toBeDefined();
+    })
+    
 });
 
 describe('User Model Endpoint Tests', () => {
-    let u: User;
-    let authenticatedUser: string; 
-    const JWT_TOKEN_SECRET = process.env.TOKEN_SECRET as string;
+    let u: User; 
     beforeAll(() => {
         // Construct user
         u = {
@@ -96,7 +99,6 @@ describe('User Model Endpoint Tests', () => {
         .set('user', tokenizedUser);
         // Save authenticated user for later
         authenticatedUser = response.body;
-        console.log(`Test Result: ${authenticatedUser}`);
         expect(response.status).toBe(200);
     });
 
@@ -105,15 +107,15 @@ describe('User Model Endpoint Tests', () => {
         .get('/users/getAllUsers')
         .set('Authorization', 'Bearer ' + authenticatedUser);
         expect(response.status).toBe(200);
-        expect(Object.keys(response.body).length).toEqual(1);
+        expect(Object.keys(response.body).length).toEqual(2);
     });
 
     it ('Get user by id returns a user', async () => {
         const response = await request
-        .get('/users/getUser/1')
+        .get('/users/getUser/2')
         .set('Authorization', 'Bearer ' + authenticatedUser);
         expect(response.status).toBe(200);
         const returnedUserName = response.body.user_name;
         expect(returnedUserName).toBe('test123');
     });
-})
+});
