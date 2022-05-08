@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { User, UsersStore } from '../Users';
 import jwt, { Secret } from 'jsonwebtoken';
 import verifyAuthToken from '../../Util';
@@ -69,6 +69,7 @@ const authenticateUser = async (req: Request, res: Response) => {
     // Get user attempting to authenticate as the verified payload
     const userPayload = JSON.parse(res.get('verifiedPayload'));
     const user = userPayload.user as User;
+    console.log(`authenticateUser() with user : ${JSON.stringify(user)}`);
     const tokenSecret = process.env.TOKEN_SECRET as unknown as Secret;
     const authenticatedUser = await store.authenticate(
       user.userName,

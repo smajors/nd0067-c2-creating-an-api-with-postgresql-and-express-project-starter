@@ -101,6 +101,7 @@ export class UsersStore {
       conn.release();
 
       // There is a user. Check the password against the hash
+
       if (result.rows.length) {
         const user: User = result.rows[0];
         if (
