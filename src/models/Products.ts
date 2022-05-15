@@ -40,18 +40,12 @@ export class ProductsStore {
    */
   async createProduct(p: Product): Promise<Product> {
     try {
-      console.log('createProduct() - Inside');
       const sql =
         'INSERT INTO product (name, price, category_id) VALUES ($1, $2, $3) RETURNING *';
-      console.log('createProduct() - Creating connection');
       const conn = await client.connect();
-      console.log('createProduct() - Querying Database');
       const result = await conn.query(sql, [p.name, p.price, p.category_id]);
-      console.log('createProduct() - Getting new product from results');
       const newProduct: Product = result.rows[0];
-      console.log('createProduct() - Releasing connection');
       conn.release();
-      console.log('createProduct() - Exiting');
       return newProduct;
     } catch (err) {
       throw new Error(

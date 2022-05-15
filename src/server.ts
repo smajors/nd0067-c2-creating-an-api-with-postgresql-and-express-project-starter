@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import userRoutes from './models/handlers/UserHandler';
 import productRoutes from './models/handlers/ProductHandler';
+import orderRoutes from './models/handlers/OrderHandler';
 
 const app: express.Application = express();
 const address = '0.0.0.0:3000';
@@ -20,6 +21,8 @@ app.use(cors(corsOptions));
 userRoutes(app);
 // Define product Routes
 productRoutes(app);
+// Define order Routes
+orderRoutes(app);
 
 app.use(bodyParser.json());
 
